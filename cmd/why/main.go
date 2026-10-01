@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/kavix/why/internal/adapters"
+	"github.com/kavix/why/internal/completion"
 	"github.com/kavix/why/internal/engine"
 	"github.com/kavix/why/internal/output"
-	"github.com/kavix/why/internal/completion"
 )
 
 var (
@@ -121,28 +121,11 @@ Options:
 		os.Exit(1)
 	}
 
-	target := strings.Join(posArgs, " ")
-	
-	switch target {
-	case "list-commands":
-		commands := completion.CompleteSubCommands()
-		fmt.Fprintln(os.Stdout, strings.Join(commands, " "))
-		os.Exit(0)
-	case "list-flags":
-		flags := completion.CompleteFlags()
-		fmt.Fprintln(os.Stdout, strings.Join(flags, " "))
-		os.Exit(0)
+	if posArgs[0] == "completion" {
+		completion.Completion(posArgs)
 	}
 
-	if strings.HasPrefix(target, "completion"){
-		args := strings.Split(target, " ")
-		if len(args) == 1{
-			fmt.Fprintln(os.Stdout, completion.Complete("bash"))
-		}else {
-			fmt.Fprintln(os.Stdout, completion.Complete(args[1]))
-		}
-		os.Exit(0)
-	}
+	target := strings.Join(posArgs, " ")
 
 	diagOpts := adapters.DiagnosticOptions{
 		Deep:      deepFlag,

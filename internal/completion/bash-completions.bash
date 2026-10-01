@@ -17,17 +17,17 @@ _why(){
   if ((COMP_CWORD == 1));then 
 
     # get the list of all commands possible
-    local commands=$(why list-commands)
+    local commands=$(why completion list-commands bash)
 
     #filter this list based on user input
     COMPREPLY=(
-      $(compgen -W "$commands" -- "$input") 
+      $(compgen -W "$commands" -- "$input")
     )
   fi
   # flags completion
   if [[ "$input" == -* ]];then 
     #get the list of all flags possible
-    local flags=$(why list-flags)
+    local flags=$(why completion list-flags bash)
     
     #filter this list based on user input
     COMPREPLY=(

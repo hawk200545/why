@@ -3,29 +3,31 @@
 #compdef why
 
 _why() {
-    # get the input from the user
     local input=$words[$CURRENT]
 
-    # subcommands completion
+    # Subcommand completion
     if (( CURRENT == 2 )); then
         local -a commands
+
         commands=(
-          ${(s: :)"$(why list-commands)"}
+            ${(f)"$(why completion list-commands zsh)"}
         )
 
         _describe 'command' commands
+        return
     fi
 
-    # flags completion
+    # Flag completion
     if [[ "$input" == -* ]]; then
         local -a flags
+
         flags=(
-            ${(s: :)"$(why list-flags)"}
+            ${(f)"$(why completion list-flags zsh)"}
         )
 
         _describe 'option' flags
+        return
     fi
 }
-
 # registering the function
 compdef _why why
